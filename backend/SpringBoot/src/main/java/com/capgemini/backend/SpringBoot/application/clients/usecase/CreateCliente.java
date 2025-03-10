@@ -1,0 +1,21 @@
+package com.capgemini.backend.SpringBoot.application.clients.usecase;
+
+import com.capgemini.backend.SpringBoot.application.exceptions.clients.DuplicateClientNameException;
+import com.capgemini.backend.SpringBoot.domain.clients.model.Cliente;
+import com.capgemini.backend.SpringBoot.domain.clients.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CreateCliente {
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    public Cliente execute(Cliente cliente) {
+        if (clienteRepository.existsByNombre(cliente.getNombre())) {
+            throw new DuplicateClientNameException("Ya existe un cliente con el nombre: " + cliente.getNombre());
+        }
+        return clienteRepository.save(cliente);
+    }
+}
