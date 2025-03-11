@@ -9,7 +9,7 @@ import { environment } from '../../../../enviroments/environment';
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = `${environment.apiUrl}prestamos`;
+  private apiUrl = `${environment.apiUrl}loans`;
 
   constructor(private http: HttpClient) {}
 

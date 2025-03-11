@@ -8,7 +8,7 @@ CREATE TABLE game (
     titulo VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE prestamo (
+CREATE TABLE loan (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre_juego VARCHAR(255) NOT NULL,
     nombre_cliente VARCHAR(255) NOT NULL,
