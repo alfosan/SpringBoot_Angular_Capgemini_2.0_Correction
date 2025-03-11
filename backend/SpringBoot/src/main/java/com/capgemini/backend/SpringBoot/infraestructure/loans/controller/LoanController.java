@@ -7,6 +7,7 @@ import com.capgemini.backend.SpringBoot.infraestructure.loans.mapper.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class LoanController {
     public Page<Loan> findByFilters(
             @RequestParam(required = false) String nombreJuego,
             @RequestParam(required = false) String nombreCliente,
-            @RequestParam(required = false) LocalDate fecha,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
             Pageable pageable) {
         return loanService.findByFilters(nombreJuego, nombreCliente, fecha, pageable);
     }

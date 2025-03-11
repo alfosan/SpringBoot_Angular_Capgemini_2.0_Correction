@@ -22,16 +22,16 @@ public class LoanRepositoryImpl implements LoanRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private LoanSpecification loanSpecification;
-
     @Override
     public List<Loan> findLoansByCriteria(List<SearchCriteria> criteriaList) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Loan> criteriaQuery = criteriaBuilder.createQuery(Loan.class);
         Root<Loan> root = criteriaQuery.from(Loan.class);
 
-        Specification<Loan> specification = loanSpecification.buildSpecification(criteriaList);
+        Specification<Loan> specification = Specification.where(null);
+        for (SearchCriteria criteria : criteriaList) {
+            specification = specification.and(new LoanSpecification(criteria));
+        }
         Predicate predicate = specification.toPredicate(root, criteriaQuery, criteriaBuilder);
 
         criteriaQuery.where(predicate);

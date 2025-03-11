@@ -2,55 +2,45 @@ package com.capgemini.backend.SpringBoot.infraestructure.loans.repository;
 
 import com.capgemini.backend.SpringBoot.domain.loans.model.Loan;
 import com.capgemini.backend.SpringBoot.infraestructure.common.criteria.SearchCriteria;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+public class LoanSpecification implements Specification<Loan> {
 
-@Component
-public class LoanSpecification {
+    private static final long serialVersionUID = 1L;
 
-    public static final String EQUALITY = ":";
-    public static final String NEGATION = "!";
-    public static final String GREATER_THAN = ">";
-    public static final String LESS_THAN = "<";
-    public static final String LIKE = "~";
-    public static final String STARTS_WITH = "^";
-    public static final String ENDS_WITH = "$";
-    public static final String CONTAINS = "*";
+    private final SearchCriteria criteria;
 
-    public Specification<Loan> buildSpecification(List<SearchCriteria> criteriaList) {
-        return (root, query, criteriaBuilder) -> {
-            Specification<Loan> specification = Specification.where(null);
-            for (SearchCriteria criteria : criteriaList) {
-                switch (criteria.getOperation()) {
-                    case EQUALITY:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.equal(root1.get(criteria.getKey()), criteria.getValue()));
-                        break;
-                    case NEGATION:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.notEqual(root1.get(criteria.getKey()), criteria.getValue()));
-                        break;
-                    case GREATER_THAN:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.greaterThan(root1.get(criteria.getKey()), criteria.getValue().toString()));
-                        break;
-                    case LESS_THAN:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.lessThan(root1.get(criteria.getKey()), criteria.getValue().toString()));
-                        break;
-                    case LIKE:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.like(root1.get(criteria.getKey()), "%" + criteria.getValue() + "%"));
-                        break;
-                    case STARTS_WITH:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.like(root1.get(criteria.getKey()), criteria.getValue() + "%"));
-                        break;
-                    case ENDS_WITH:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.like(root1.get(criteria.getKey()), "%" + criteria.getValue()));
-                        break;
-                    case CONTAINS:
-                        specification = specification.and((root1, query1, criteriaBuilder1) -> criteriaBuilder1.like(root1.get(criteria.getKey()), "%" + criteria.getValue() + "%"));
-                        break;
-                }
+    public LoanSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
+    }
+
+    @Override
+    public Predicate toPredicate(Root<Loan> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+            Path<String> path = getPath(root);
+            if (path.getJavaType() == String.class) {
+                return builder.like(path, "%" + criteria.getValue() + "%");
+            } else {
+                return builder.equal(path, criteria.getValue());
             }
-            return specification.toPredicate(root, query, criteriaBuilder);
-        };
+        } else if (criteria.getOperation().equalsIgnoreCase("<=") && criteria.getValue() != null) {
+            return builder.lessThanOrEqualTo(root.get(criteria.getKey()), (Comparable) criteria.getValue());
+        } else if (criteria.getOperation().equalsIgnoreCase(">=") && criteria.getValue() != null) {
+            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), (Comparable) criteria.getValue());
+        }
+        return null;
+    }
+
+    private Path<String> getPath(Root<Loan> root) {
+        String key = criteria.getKey();
+        String[] split = key.split("[.]", 0);
+
+        Path<String> expression = root.get(split[0]);
+        for (int i = 1; i < split.length; i++) {
+            expression = expression.get(split[i]);
+        }
+
+        return expression;
     }
 }

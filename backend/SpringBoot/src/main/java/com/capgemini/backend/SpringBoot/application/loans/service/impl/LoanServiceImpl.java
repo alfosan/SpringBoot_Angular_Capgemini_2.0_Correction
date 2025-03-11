@@ -47,9 +47,6 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private DeleteLoan deleteLoan;
 
-    @Autowired
-    private LoanSpecification loanSpecification;
-
     @Override
     public List<Loan> getAllLoans() {
         return getAllLoans.execute();
@@ -109,14 +106,14 @@ public class LoanServiceImpl implements LoanService {
         Specification<Loan> spec = Specification.where(null);
 
         if (nombreJuego != null && !nombreJuego.isEmpty()) {
-            spec = spec.and(loanSpecification.buildSpecification(List.of(new SearchCriteria("nombreJuego", ":", nombreJuego))));
+            spec = spec.and(new LoanSpecification(new SearchCriteria("nombreJuego", ":", nombreJuego)));
         }
         if (nombreCliente != null && !nombreCliente.isEmpty()) {
-            spec = spec.and(loanSpecification.buildSpecification(List.of(new SearchCriteria("nombreCliente", ":", nombreCliente))));
+            spec = spec.and(new LoanSpecification(new SearchCriteria("nombreCliente", ":", nombreCliente)));
         }
         if (fecha != null) {
-            spec = spec.and(loanSpecification.buildSpecification(List.of(new SearchCriteria("fechaCreacion", "<=", fecha))));
-            spec = spec.and(loanSpecification.buildSpecification(List.of(new SearchCriteria("fechaDevolucion", ">=", fecha))));
+            spec = spec.and(new LoanSpecification(new SearchCriteria("fechaCreacion", "<=", fecha)));
+            spec = spec.and(new LoanSpecification(new SearchCriteria("fechaDevolucion", ">=", fecha)));
         }
 
         Page<Loan> loans = loanRepository.findAll(spec, pageable);
