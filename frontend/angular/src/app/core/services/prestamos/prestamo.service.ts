@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Prestamo } from '../../models/prestamos/prestamo.model';
-import { environment } from '../../../../enviroments/environment';
+import { API_ROUTES } from '../../constants/api-routes';
+import { handleError } from '../../../shared/components/error/generic-handler-error/error-handler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = `${environment.apiUrl}loans`;
+  private apiUrl = API_ROUTES.LOANS;
 
   constructor(private http: HttpClient) {}
 
   getPrestamos(page: number, size: number = 4): Observable<any> {
     let params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<any>(`${this.apiUrl}/filter`, { params }).pipe(
-      catchError(this.handleError)
+    return this.http.get<any>(this.apiUrl.GET_ALL, { params }).pipe(
+      catchError(handleError)
     );
   }
 
@@ -31,32 +32,20 @@ export class PrestamoService {
     if (fecha) {
       params = params.set('fecha', fecha);
     }
-    return this.http.get<any>(`${this.apiUrl}/filter`, { params }).pipe(
-      catchError(this.handleError)
+    return this.http.get<any>(this.apiUrl.FILTER, { params }).pipe(
+      catchError(handleError)
     );
   }
 
   createPrestamo(prestamo: Partial<Prestamo>): Observable<Prestamo> {
-    return this.http.post<Prestamo>(this.apiUrl, prestamo).pipe(
-      catchError(this.handleError)
+    return this.http.post<Prestamo>(this.apiUrl.CREATE, prestamo).pipe(
+      catchError(handleError)
     );
   }
 
   deletePrestamo(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
+    return this.http.delete<void>(this.apiUrl.DELETE(id)).pipe(
+      catchError(handleError)
     );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side or network error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Backend error
-      errorMessage = error.error.message || error.message || 'An unknown error occurred!';
-    }
-    return throwError(errorMessage);
   }
 }

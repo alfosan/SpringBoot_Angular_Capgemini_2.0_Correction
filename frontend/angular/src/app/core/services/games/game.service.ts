@@ -1,51 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Game } from '../../models/games/game.model';
-import { environment } from '../../../../enviroments/environment';
+import { API_ROUTES } from '../../constants/api-routes';
+import { handleError } from '../../../shared/components/error/generic-handler-error/error-handler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private apiUrl = `${environment.apiUrl}games`;
+  private apiUrl = API_ROUTES.GAMES;
 
   constructor(private http: HttpClient) {}
 
   getGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(this.apiUrl).pipe(
-      catchError(this.handleError)
+    return this.http.get<Game[]>(this.apiUrl.GET_ALL).pipe(
+      catchError(handleError)
     );
   }
 
   updateGame(id: number, game: Game): Observable<Game> {
-    return this.http.put<Game>(`${this.apiUrl}/${id}`, game).pipe(
-      catchError(this.handleError)
+    return this.http.put<Game>(this.apiUrl.UPDATE(id), game).pipe(
+      catchError(handleError)
     );
   }
 
   deleteGame(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
+    return this.http.delete<void>(this.apiUrl.DELETE(id)).pipe(
+      catchError(handleError)
     );
   }
 
   registerGame(game: { titulo: string }): Observable<Game> {
-    return this.http.post<Game>(this.apiUrl, game).pipe(
-      catchError(this.handleError)
+    return this.http.post<Game>(this.apiUrl.CREATE, game).pipe(
+      catchError(handleError)
     );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side or network error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Backend error
-      errorMessage = error.error.message || 'An unknown error occurred!';
-    }
-    return throwError(errorMessage);
   }
 }
