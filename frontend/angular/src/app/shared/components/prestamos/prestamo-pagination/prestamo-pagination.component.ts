@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './prestamo-pagination.component.html',
-  styleUrls: ['./prestamo-pagination.component.css']
+  styleUrls: ['./prestamo-pagination.component.scss']
 })
 export class PrestamoPaginationComponent {
   @Input() totalPages: number = 0;

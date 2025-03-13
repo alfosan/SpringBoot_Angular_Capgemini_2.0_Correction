@@ -12,7 +12,7 @@ import { Client } from '../../../../core/models/clients/client.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './prestamo-create.component.html',
-  styleUrls: ['./prestamo-create.component.css']
+  styleUrls: ['./prestamo-create.component.scss']
 })
 export class PrestamoCreateComponent implements OnInit {
   nombreJuego: string = '';

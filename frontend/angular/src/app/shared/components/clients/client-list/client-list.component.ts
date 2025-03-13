@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, ClientUpdateComponent, ClientDeleteComponent, ClientRegisterComponent],
   templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.css']
+  styleUrls: ['./client-list.component.scss']
 })
 export class ClientListComponent implements OnInit {
   clients: Client[] = [];

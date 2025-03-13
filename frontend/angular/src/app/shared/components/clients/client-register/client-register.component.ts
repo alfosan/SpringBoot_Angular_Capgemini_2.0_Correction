@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './client-register.component.html',
-  styleUrls: ['./client-register.component.css']
+  styleUrls: ['./client-register.component.scss']
 })
 export class ClientRegisterComponent {
   clientName: string = '';

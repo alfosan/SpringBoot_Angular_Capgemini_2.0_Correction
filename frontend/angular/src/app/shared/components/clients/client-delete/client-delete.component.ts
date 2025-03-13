@@ -7,7 +7,7 @@ import { Client } from '../../../../core/models/clients/client.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './client-delete.component.html',
-  styleUrls: ['./client-delete.component.css']
+  styleUrls: ['./client-delete.component.scss']
 })
 export class ClientDeleteComponent {
   @Input() client: Client | null = null;

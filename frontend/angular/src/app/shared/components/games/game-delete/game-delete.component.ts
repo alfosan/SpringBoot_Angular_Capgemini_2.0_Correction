@@ -7,7 +7,7 @@ import { Game } from '../../../../core/models/games/game.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './game-delete.component.html',
-  styleUrls: ['./game-delete.component.css']
+  styleUrls: ['./game-delete.component.scss']
 })
 export class GameDeleteComponent {
   @Input() game: Game | null = null;

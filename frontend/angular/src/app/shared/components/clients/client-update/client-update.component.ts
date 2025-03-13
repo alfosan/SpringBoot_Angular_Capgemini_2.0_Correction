@@ -8,7 +8,7 @@ import { Client } from '../../../../core/models/clients/client.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './client-update.component.html',
-  styleUrls: ['./client-update.component.css']
+  styleUrls: ['./client-update.component.scss']
 })
 export class ClientUpdateComponent implements OnChanges {
   @Input() client: Client | null = null;

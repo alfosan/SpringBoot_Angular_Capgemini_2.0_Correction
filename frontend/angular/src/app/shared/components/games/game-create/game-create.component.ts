@@ -8,7 +8,7 @@ import { Game } from '../../../../core/models/games/game.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './game-create.component.html',
-  styleUrls: ['./game-create.component.css']
+  styleUrls: ['./game-create.component.scss']
 })
 export class GameCreateComponent {
   gameTitle: string = '';

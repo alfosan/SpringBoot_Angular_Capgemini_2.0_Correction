@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, GameUpdateComponent, GameDeleteComponent, GameCreateComponent],
   templateUrl: './game-list.component.html',
-  styleUrls: ['./game-list.component.css']
+  styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
   games: Game[] = [];

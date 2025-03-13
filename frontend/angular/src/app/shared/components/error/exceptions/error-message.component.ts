@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './error-message.component.html',
-  styleUrls: ['./error-message.component.css']
+  styleUrls: ['./error-message.component.scss']
 })
 export class ErrorMessageComponent {
   @Input() message: string | null = null;

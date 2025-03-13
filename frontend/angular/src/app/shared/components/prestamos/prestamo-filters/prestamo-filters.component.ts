@@ -11,7 +11,7 @@ import { Client } from '../../../../core/models/clients/client.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './prestamo-filters.component.html',
-  styleUrls: ['./prestamo-filters.component.css']
+  styleUrls: ['./prestamo-filters.component.scss']
 })
 export class PrestamoFiltersComponent implements OnInit {
   nombreJuego: string = '';

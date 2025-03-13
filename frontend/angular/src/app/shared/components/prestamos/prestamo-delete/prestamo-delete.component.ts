@@ -7,7 +7,7 @@ import { Prestamo } from '../../../../core/models/prestamos/prestamo.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './prestamo-delete.component.html',
-  styleUrls: ['./prestamo-delete.component.css']
+  styleUrls: ['./prestamo-delete.component.scss']
 })
 export class PrestamoDeleteComponent {
   @Input() prestamo: Prestamo | null = null;

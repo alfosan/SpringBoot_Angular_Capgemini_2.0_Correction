@@ -8,7 +8,7 @@ import { Game } from '../../../../core/models/games/game.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './game-update.component.html',
-  styleUrls: ['./game-update.component.css']
+  styleUrls: ['./game-update.component.scss']
 })
 export class GameUpdateComponent implements OnChanges {
   @Input() game: Game | null = null;

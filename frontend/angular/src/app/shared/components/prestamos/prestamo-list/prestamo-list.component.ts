@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, PrestamoFiltersComponent, PrestamoPaginationComponent, PrestamoCreateComponent, PrestamoDeleteComponent],
   templateUrl: './prestamo-list.component.html',
-  styleUrls: ['./prestamo-list.component.css']
+  styleUrls: ['./prestamo-list.component.scss']
 })
 export class PrestamoListComponent implements OnInit {
   prestamos: Prestamo[] = [];
